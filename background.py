@@ -19,10 +19,10 @@ def setWallpaper(filePath):
     "org.kde.PlasmaShell.evaluateScript", script
   ]
 
-try:
-  subprocess.run(command, check=True)
-except subprocess.CalledProcessError as e:
-  sys.exit(f"Failed to set wallpaper: {e}")
+  try:
+    subprocess.run(command, check=True)
+  except subprocess.CalledProcessError as e:
+    sys.exit(f"Failed to set wallpaper: {e}")
 
 def getColor(filePath):
   colors, pixel_count = extcolors.extract_from_path("image.jpg", tolerance=20)
@@ -37,8 +37,8 @@ def setTerminalColor():
     path = result.strip().replace("Image=file://", "")
     color = getColor(path)
 
-    setCurrentBackgrounds(color)
-    editKittyConfig(color)
+    # setCurrentBackgrounds(color)
+    # editKittyConfig(color)
   except Exception:
     sys.exit("Failed to find your wallpaper\'s path")
 

@@ -4,6 +4,43 @@ This just a simple script to change your background from a folder of images and 
   
 This is designed for KDE and Kitty Terminal, so if you wish to use this script but don't have one of them, you'll probably have to edit it to accommodate
 
+## Dependencies
+
+* Python
+* Extcolors
+* KDE
+* Kitty Terminal
+
+As mentioned above, you can always edit the script for any other DE or terminal
+
+### Installing
+
+#### Installing the script
+Simply clone the repo and run the script
+`git clone https://github.com/Lordpun/Background-Manager`
+
+Enter the folder
+`cd Background-Manager`
+
+Setup the virtual enviroment
+`python -m venv .venv`
+
+Install extcolors
+`pip install extcolors`
+
+Exit
+`deactivate`
+
+#### Setting up the run scritp
+
+Make it executable
+`chmod +x run.sh`
+
+#### Config
+
+Make a config at the path in the config section below
+Edit it to your choice
+
 ## How to use
 
 ### Making the config
@@ -29,25 +66,7 @@ Avoid the name update, the script will not recgonize it as a custom command.
 
 #### Running normally
 
-Simply run `python3 path/to/script/main.py/ command`
-If you do not add command it will return an error.  
-  
-You can put this wherever, such as an alias for an example.  
+Run `path/to/script/run.sh command`
 
 #### Updating just the terminal color
-If you wish to simply update the terminal color, but don't wish to randomly select a background: simply just run `python3 path/to/script/main.py update`
-## Dependencies
-
-* Python
-* Extcolors (`pip install extcolors`)
-* KDE
-* Kitty Terminal
-
-As mentioned above, you can always edit the script for any other DE or terminal
-
-### Installing
-
-Simply clone the repo and run the script
-`git clone https://github.com/Lordpun/Background-Manager`
-
-Make a config at the path in the config section
+If you wish to simply update the terminal color, but don't wish to randomly select a background: simply just run `path/to/script/run.sh update`
