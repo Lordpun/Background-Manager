@@ -1,6 +1,7 @@
 from pathlib import Path
 import sys
 import json
+import random
 import background
 
 command = ""
@@ -13,7 +14,7 @@ def getArgs():
 configPath = Path.home() / ".config" / "BgManager" / "config.json"
 
 def getConfig():
-  with open('data.json', 'r') as configFile:
+  with open(configPath, 'r') as configFile:
     return json.load(configFile)
 
 def getCommand():
@@ -23,8 +24,18 @@ def getCommand():
   if not configPath.exists():
     sys.exit("No config found\nPlease make one at the path ~/.config/BgManager/config.json\nFormatting instructions are in the script's readme")
 
+  config = getConfig()
+
   if not config[command]:
     sys.exit(f"Command {command} not found")
+
+  info = config[command]
+
+  files = [f for f in Path(info["Folder"]).iterdir() if f.is_file()]
+  selection = random.choice(files)
+
+  if info["ChangeTerminal"]:
+    background.setTerminalColor()
 
 getArgs()
 getCommand()
