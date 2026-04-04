@@ -13,17 +13,17 @@ configPath = Path.home() / ".config" / "BgManager" / "config.json"
 
 def getConfig():
   with open('data.json', 'r') as configFile:
-    config = json.load(configFile)
+    return json.load(configFile)
+
+def getCommand():
+  if not configPath.exists():
+    sys.exit("No config found\nPlease make one at the path ~/.config/BgManager/config.json\nFormatting instructions are in the script's readme")
 
   if not config[command]:
     sys.exit(f"Command {command} not found")
 
-
-def getCommand():
-  if not configPath.exists():
-    sys.exit("No config found")
-
 getArgs()
+getCommand()
 
 if command == "":
   sys.exit()
