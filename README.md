@@ -22,14 +22,20 @@ The config structure is:
 ```
 
 For each set of wallpapers you have (Assuming you have multple sets), you need to create a new command section following the same formatting  
+  
+Avoid the name update, the script will not recgonize it as a custom command.
 
 ### Calling the script  
+
+#### Running normally
 
 Simply run `python3 path/to/script/main.py/ command`
 If you do not add command it will return an error.  
   
 You can put this wherever, such as an alias for an example.  
 
+#### Updating just the terminal color
+If you wish to simply update the terminal color, but don't wish to randomly select a background: simply just run `python3 path/to/script/main.py update`
 ## Dependencies
 
 * Python
