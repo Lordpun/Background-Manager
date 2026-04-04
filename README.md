@@ -39,6 +39,7 @@ If you wish to simply update the terminal color, but don't wish to randomly sele
 ## Dependencies
 
 * Python
+* Extcolors (`pip install extcolors`)
 * KDE
 * Kitty Terminal
 
