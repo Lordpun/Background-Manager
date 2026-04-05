@@ -33,6 +33,7 @@ def getCommand():
 
   files = [f for f in Path(info["Folder"]).iterdir() if f.is_file()]
   selection = random.choice(files)
+  background.setWallpaper(selection)
 
   if info["ChangeTerminal"]:
     background.setTerminalColor()
