@@ -3,6 +3,7 @@ import subprocess
 import sys
 import os
 import extcolors
+import colorsys
 
 wallpaperPath = Path.home() / ".config" / "plasma-org.kde.plasma.desktop-appletsrc"
 kittyConfig = Path.home() / ".config" / "kitty" / "kitty.conf"
@@ -18,7 +19,12 @@ def getColor():
   path = getWallpaper()
   colors, pixel_count = extcolors.extract_from_path(path.strip(), tolerance=20)
   main_color = colors[0][0]
-  return '#{:02x}{:02x}{:02x}'.format(main_color[0], main_color[1], main_color[2])
+  h, l, s = colorsys.rgb_to_hls(main_color[0]/255, main_color[1]/255, main_color[2]/255)
+  newBrightness = l * 0.75
+  r, g, b = colorsys.hls_to_rgb(h, newBrightness, l)
+  hexColor = '#{:02x}{:02x}{:02x}'.format(round(r * 255), round(g * 255), round(b * 255))
+
+  return hexColor, newBrightness * 100
 
 def setWallpaper(filePath):
   js_script = f"""
@@ -52,8 +58,16 @@ def setWallpaper(filePath):
 
 
 def setTerminalColor():
-  color = getColor()
+  color,brightness = getColor()
+
+  if brightness < 60:
+    textColor = "#ddd"
+  else:
+    textColor = "#111"
+
   colorExists = False
+  textExists = False
+  remoteExists = False
 
   with open(kittyConfig, "r") as config:
     lines = config.readlines()
@@ -61,49 +75,30 @@ def setTerminalColor():
       if line.strip().startswith("background "):
         lines[lines.index(line)] = f"background {color}\n"
         colorExists = True
-        break
+      
+      if line.strip().startswith("foreground "):
+        lines[lines.index(line)] = f"foreground {textColor}\n"
+        textExists = True
 
       if line.strip().startswith("allow_remote_control "):
         if line.strip().endswith("no"):
-          sys.exit("Please make sure allow_remote_control is set to yes in kitty.conf")
+          break
+        remoteExists = True
+
+      if colorExists and textExists and remoteExists:
+        break
 
   if not colorExists:
-    lines.append(f"background {color}\n")
+    lines.append(f"\nbackground {color}\n")
+  if not textExists:
+    lines.append(f"\nforeground {textColor}\n")
+  if not remoteExists:
+    sys.exit("Please set allow_remote_control to yes in kitty.conf")
 
   with open(kittyConfig, "w") as config:
     config.writelines(lines)
 
   setActiveTerminals(color)
 
-def findSockets():
-  sockets = []
-  search_paths = ['/tmp', os.environ.get('XDG_RUNTIME_DIR', '/run/user/1000')]
-  
-  for path in search_paths:
-    if os.path.exists(path):
-      for item in os.listdir(path):
-        if item.startswith('kitty-control-'):
-          sockets.append(os.path.join(path, item))
-  return sockets
-
 def setActiveTerminals(color):
-  sockets = findSockets()
-
-  if not sockets:
-    sys.exit("No active Kitty sockets found.")
-    return
-
-  for socket in sockets:
-    socket_path = f"unix:{socket}"
-    
-    command = [
-      "kitty", "@", 
-      "--to", socket_path, 
-      "set-colors", 
-      f"background={color}"
-    ]
-    
-    try:
-      subprocess.run(command, check=True)
-    except subprocess.CalledProcessError:
-      sys.exit(f"Failed to update: {socket}")
+  pass
