@@ -7,16 +7,16 @@ import extcolors
 wallpaperPath = Path.home() / ".config" / "plasma-org.kde.plasma.desktop-appletsrc"
 kittyConfig = Path.home() / ".config" / "kitty" / "kitty.conf"
 
-def getWallPaper():
+def getWallpaper():
   with open(wallpaperPath, "r") as config:
     lines = config.readlines()
-    for line.strip() in lines:
-      if "Image=file://" in line:
+    for line in lines:
+      if "Image=file://" in line.strip():
         return line.replace("Image=file://", "", 1)
 
 def getColor():
   path = getWallpaper()
-  colors, pixel_count = extcolors.extract_from_path(path, tolerance=20)
+  colors, pixel_count = extcolors.extract_from_path(path.strip(), tolerance=20)
   main_color = colors[0][0]
   return '#{:02x}{:02x}{:02x}'.format(main_color[0], main_color[1], main_color[2])
 
@@ -70,7 +70,7 @@ def setTerminalColor():
   if not colorExists:
     lines.append(f"background {color}\n")
 
-  with open(kittyConfig) as config:
+  with open(kittyConfig, "w") as config:
     config.writelines(lines)
 
   setActiveTerminals(color)
