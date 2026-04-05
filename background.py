@@ -98,7 +98,4 @@ def setTerminalColor():
   with open(kittyConfig, "w") as config:
     config.writelines(lines)
 
-  setActiveTerminals(color)
-
-def setActiveTerminals(color):
-  pass
+  subprocess.run(["kitty", "@", "set-colors", "--all", f"background={color}", f"foreground={textColor}"])
