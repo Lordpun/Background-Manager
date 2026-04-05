@@ -19,7 +19,7 @@ def getWallpaper():
 def getColor():
   path = getWallpaper().strip()
   with Image.open(path) as img:
-    img.thumbnail((100, 100)) # Drastically reduces pixel count
+    img.thumbnail((100, 70))
     colors, pixel_count = extcolors.extract_from_image(img, tolerance=20)
 
   main_color = colors[0][0]
