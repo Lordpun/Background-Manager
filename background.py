@@ -1,4 +1,5 @@
 from pathlib import Path
+from PIL import Image
 import subprocess
 import sys
 import os
@@ -16,8 +17,11 @@ def getWallpaper():
         return line.replace("Image=file://", "", 1)
 
 def getColor():
-  path = getWallpaper()
-  colors, pixel_count = extcolors.extract_from_path(path.strip(), tolerance=20)
+  path = getWallpaper().strip()
+  with Image.open(path) as img:
+    img.thumbnail((100, 100)) # Drastically reduces pixel count
+    colors, pixel_count = extcolors.extract_from_image(img, tolerance=20)
+
   main_color = colors[0][0]
   h, l, s = colorsys.rgb_to_hls(main_color[0]/255, main_color[1]/255, main_color[2]/255)
   newBrightness = l * 0.75
@@ -60,7 +64,7 @@ def setWallpaper(filePath):
 def setTerminalColor():
   color,brightness = getColor()
 
-  if brightness < 60:
+  if brightness < 46:
     textColor = "#ddd"
   else:
     textColor = "#111"
