@@ -20,6 +20,7 @@ def getConfig():
 def getCommand():
   if command == "update":
     background.setTerminalColor()
+    return
 
   if not configPath.exists():
     sys.exit("No config found\nPlease make one at the path ~/.config/BgManager/config.json\nFormatting instructions are in the script's readme")
