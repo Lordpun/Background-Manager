@@ -13,7 +13,7 @@ def getColor(filePath):
   return '#{:02x}{:02x}{:02x}'.format(rgb[0], rgb[1], rgb[2])
 
 def getWallPaper():
-  with open(wallpaperPath, "w") as config:
+  with open(wallpaperPath, "r") as config:
     lines = config.readlines()
     for line.strip() in lines:
       if "Image=file://" in line:
