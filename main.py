@@ -2,6 +2,7 @@ from pathlib import Path
 import sys
 import json
 import random
+import subprocess
 import background
 import kvantum
 
@@ -42,6 +43,10 @@ def getCommand():
 
     if selection.get("ChangeKvantum", False):
       kvantum.setKvantumColor(selection["Color"])
+
+    if selection.get("Commands"):
+      for item in selection.get("Commands"):
+        subprocess.run(item, shell=True)
     return
   files = [f for f in Path(info["Folder"]).iterdir() if f.is_file()]
   selection = random.choice(files)
@@ -52,6 +57,11 @@ def getCommand():
 
   if info.get("ChangeKvantum", False):
     kvantum.setKvantumColor()
+
+  if info.get("Commands"):
+    for item in info.get("Commands"):
+      subprocess.run(item, shell=True)
+
 getArgs()
 getCommand()
 
