@@ -60,7 +60,28 @@ The config structure is:
 
 For each set of wallpapers you have (Assuming you have multple sets), you need to create a new command section following the same formatting  
   
-Avoid the name update, the script will not recgonize it as a custom command.
+Avoid the name update, the script will not recgonize it as a custom command.  
+
+#### Custom presets
+
+You can set a custom color for a background if you don't like the picked color
+
+```
+{
+  "Command": {
+    "Type": "Custom",
+    "Backgrounds": [
+      {
+        "Background": "Path",
+        "ChangeTerminal": Bool
+        "Color": "Hex code"
+      }
+    ]
+  }
+}
+```
+  
+If you don't have ChangeTerminal set to false, you don't need Color
 
 ### Calling the script  
 

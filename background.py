@@ -16,6 +16,13 @@ def getWallpaper():
       if "Image=file://" in line.strip():
         return line.replace("Image=file://", "", 1)
 
+# For custom hex codes
+def getBrightness(color):
+  value = color.lstrip('#')
+  rgb = tuple(int(value[i:i+2], 16) for i in (0, 2, 4))
+  h, l, s = colorsys.rgb_to_hls(rgb[0]/255, rgb[1]/255, rgb[2]/255)
+  return l
+
 def getColor():
   path = getWallpaper().strip()
   with Image.open(path) as img:
@@ -60,9 +67,11 @@ def setWallpaper(filePath):
     js_script
   ])
 
-
-def setTerminalColor():
-  color,brightness = getColor()
+def setTerminalColor(color="auto"):
+  if color == "auto" or not color[0] == "#" or len(color) > 7:
+    color,brightness = getColor()
+  else:
+    brightness = getBrightness(color)
 
   if brightness < 46:
     textColor = "#ddd"
