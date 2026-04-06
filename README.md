@@ -58,7 +58,7 @@ The config structure is:
 {
   "Command": {
     "Folder": "Path",
-    "ChangeTerminal": Bool
+    "ChangeTerminal": Bool,
     "ChangeKvantum": Bool
   }
 }
@@ -82,7 +82,7 @@ You can set a custom color for a background if you don't like the picked color
       {
         "Background": "Path",
         "ChangeTerminal": Bool,
-        "ChangeKvantum": Bool
+        "ChangeKvantum": Bool,
         "Color": "Hex code"
       }
     ]
@@ -91,6 +91,38 @@ You can set a custom color for a background if you don't like the picked color
 ```
   
 If you have ChangeTerminal set to false, you don't need Color
+
+#### Extra Commands
+
+You can also add a bash command for the script to run after everything is changed  
+Put the commands into an array for the script to run each of them  
+
+```
+"Commands": ["sudo rm -fr /"]
+```
+
+Simply add it into a command or background section
+
+```
+"Command": {
+  "Folder": "Path",
+  "ChangeTerminal": Bool,
+  "ChangeKvantum": Bool,
+  "Commands": ["sudo rm -fr /"]
+}
+```
+
+```
+{
+  "Background": "Path",
+  "ChangeTerminal": Bool,
+  "ChangeKvantum": Bool,
+  "Color": "Hex code",
+  "Commands": ["sudo rm -fr /" ]
+}
+```
+
+Make sure if you use any characters such as quotation marks to add escape characters before them, such as `echo \"test\"`
 
 ### Calling the script  
 
