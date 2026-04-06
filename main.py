@@ -3,6 +3,7 @@ import sys
 import json
 import random
 import background
+import kvantum
 
 command = ""
 
@@ -36,16 +37,21 @@ def getCommand():
     selection = random.choice(info["Backgrounds"])
     background.setWallpaper(selection["Background"])
 
-    if selection.get("ChangeTerminal"):
+    if selection.get("ChangeTerminal", True):
       background.setTerminalColor(selection["Color"])
+
+    if selection.get("ChangeKvantum", False):
+      kvantum.setKvantumColor(selection["Color"])
     return
   files = [f for f in Path(info["Folder"]).iterdir() if f.is_file()]
   selection = random.choice(files)
   background.setWallpaper(selection)
 
-  if info.get("ChangeTerminal"):
+  if info.get("ChangeTerminal", True):
     background.setTerminalColor()
 
+  if info.get("ChangeKvantum", False):
+    kvantum.setKvantumColor()
 getArgs()
 getCommand()
 
