@@ -32,6 +32,13 @@ def getCommand():
 
   info = config[command]
 
+  if info.get("Type") == "custom" and info.get("Backgrounds"):
+    selection = random.choice(info["Backgrounds"])
+    background.setWallpaper(selection["Background"])
+
+    if selection["ChangeTerminal"]:
+      background.setTerminalColor(selection["Color"])
+    return
   files = [f for f in Path(info["Folder"]).iterdir() if f.is_file()]
   selection = random.choice(files)
   background.setWallpaper(selection)
