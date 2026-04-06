@@ -9,7 +9,12 @@ This is designed for KDE and Kitty Terminal, so if you wish to use this script b
 * Python
 * Extcolors
 * KDE
-* Kitty Terminal
+* Kitty Terminal  
+* Kvantum (If you want this to change your Kvantum theme's colors)
+
+**WARNING WITH KVANTUM**   
+This may be hard coded to the theme I'm using (Glassy), it is far from guarnteed from working   
+It barley even worked on mine, only changing the color of UI element
 
 As mentioned above, you can always edit the script for any other DE or terminal
 
@@ -54,6 +59,7 @@ The config structure is:
   "Command": {
     "Folder": "Path",
     "ChangeTerminal": Bool
+    "ChangeKvantum": Bool
   }
 }
 ```
@@ -62,6 +68,7 @@ For each set of wallpapers you have (Assuming you have multple sets), you need t
 Avoid the name update, the script will not recgonize it as a custom command.  
   
 ChangeTerminal is optional. It's only needed if you don't wish for it to change the terminal color.
+Same with ChangeKvantum
 
 #### Custom presets
 
@@ -74,7 +81,8 @@ You can set a custom color for a background if you don't like the picked color
     "Backgrounds": [
       {
         "Background": "Path",
-        "ChangeTerminal": Bool
+        "ChangeTerminal": Bool,
+        "ChangeKvantum": Bool
         "Color": "Hex code"
       }
     ]
