@@ -1,24 +1,16 @@
 from pathlib import Path
+import xml.etree.ElementTree as ET
 import background
-import configparser
 import colorsys
 import subprocess
+import shutil
+import sys
 
-kvantumPath = Path.home() / ".config" / "Kvantum"
-
-def findColorConfig():
-  config = configparser.ConfigParser()
-  config.read(kvantumPath / "kvantum.kvconfig")
-
-  if config.has_option("General", "theme"):
-    theme = config.get("General", "theme")
-    themePath = kvantumPath / theme
-
-    files = [f for f in themePath.iterdir() if f.is_file()]
-    for file in files:
-      if file.suffix == ".kvconfig":
-        return themePath / file
-  return kvantumPath / "kvantum.kvconfig"
+def getQdbus():
+  for cmd in ['qdbus6', 'qdbus-qt5', 'qdbus']:
+    if shutil.which(cmd):
+      return cmd
+  return None
 
 def makeBaseColor(color):
   value = color.lstrip('#')
@@ -31,21 +23,36 @@ def makeBaseColor(color):
 def setKvantumColor(color="auto"):
   if color == "auto" or not color[0] == "#" or len(color) > 7:
     color = background.getColor()[0]
-  baseColor = makeBaseColor(color)
 
-  configPath = findColorConfig()
+  # Hard coded for the theme I use. I'm assuming most themes use different methods of setting colors, so probably best to edit this to fit yours
+  ET.register_namespace('inkscape', "http://www.inkscape.org/namespaces/inkscape")
+  ET.register_namespace('sodipodi', "http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd")
 
-  config = configparser.ConfigParser()
-  config.read(configPath)
+  svg = Path.home() / ".config" / "Kvantum" / "Glassy" / "Glassy.svg"
 
-  if not config.has_section("GeneralColors"):
-    config.add_section("GeneralColors")
-  config.set("GeneralColors", "window.color", color)
-  config.set("GeneralColors", "base.color", baseColor)
+  tree = ET.parse(svg)
+  root = tree.getroot()
 
-  with open(configPath, 'w') as configfile:
-    config.write(configfile, space_around_delimiters=False)
+  window = root.find(".//{http://www.w3.org/2000/svg}g[@id='window-normal']")
+  if window is None:
+    sys.exit("Kvantum theme window wasn't found in the SVG")
+  window.set("style", f"fill-opacity:0.70588237;opacity:0.7;fill:{color}")
 
-  subprocess.run(["kvantummanager", "--set", configPath.stem])
-  subprocess.run(["dbus-send", "--type=signal", "/KGlobalSettings", "org.kde.KGlobalSettings.notifyChange", "int32:0", "int32:0"])
-  subprocess.run(["killall", "dolphin"])
+  windowRect = window.find("{http://www.w3.org/2000/svg}rect")
+  if windowRect is None:
+    sys.exit("Kvantum theme rect wasn't found in the SVG")
+  windowRect.set("style", f"fill-opacity:0.70588237;stroke:none;fill:{color}")
+
+  tree.write(svg, encoding='utf-8', xml_declaration=True)
+
+  subprocess.run(f"{getQdbus()} org.kde.KWin /KWin reconfigure", shell=True)
+
+  cache_path = Path.home() / ".cache" / "kvantum"
+  if cache_path.exists():
+    try:
+      shutil.rmtree(cache_path)
+    except OSError:
+      pass
+        
+  subprocess.run(["killall", "-9", "dolphin"], stderr=subprocess.DEVNULL)
+  subprocess.Popen(["dolphin"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)

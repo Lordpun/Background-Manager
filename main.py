@@ -39,10 +39,10 @@ def getCommand():
     background.setWallpaper(selection["Background"])
 
     if selection.get("ChangeTerminal", True):
-      background.setTerminalColor(selection["Color"])
+      background.setTerminalColor(selection.get("Color", "auto"))
 
     if selection.get("ChangeKvantum", False):
-      kvantum.setKvantumColor(selection["Color"])
+      kvantum.setKvantumColor(selection.get("Color", "auto"))
 
     if selection.get("Commands"):
       for item in selection.get("Commands"):
