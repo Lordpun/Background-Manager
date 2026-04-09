@@ -13,9 +13,9 @@ This is designed for KDE and Kitty Terminal, so if you wish to use this script b
 * Kvantum (If you want this to change your Kvantum theme's colors)
 
 **WARNING WITH KVANTUM**   
-This may be hard coded to the theme I'm using (Glassy), it is far from guarnteed from working   
-It barley even worked on mine, only changing the color of UI element
-
+It is hard coded for the theme I use (Glassy)  
+I recommend either using the same theme or rewriting the save function. You won't have to rewrite much if you can simply edit its SVG file   
+  
 As mentioned above, you can always edit the script for any other DE or terminal
 
 ### Installing
@@ -90,7 +90,8 @@ You can set a custom color for a background if you don't like the picked color
 }
 ```
   
-If you have ChangeTerminal set to false, you don't need Color
+If you have ChangeTerminal set to false, you don't need Color  
+If you don't want a specific background in a custom command to use a custom color, you can either not add it or set it to auto
 
 #### Extra Commands
 
