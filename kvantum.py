@@ -53,6 +53,3 @@ def setKvantumColor(color="auto"):
       shutil.rmtree(cache_path)
     except OSError:
       pass
-        
-  subprocess.run(["killall", "-9", "dolphin"], stderr=subprocess.DEVNULL)
-  subprocess.Popen(["dolphin"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
