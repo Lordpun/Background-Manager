@@ -20,7 +20,8 @@ def saveImg(imgPath, width, padding):
     json.dump(imgData, config)
 
 def wipeData():
-  imgConfig.unlink()
+  if imgConfig.exists():
+    imgConfig.unlink()
 
 def getData():
   if not imgConfig.exists():
