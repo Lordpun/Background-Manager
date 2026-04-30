@@ -67,16 +67,21 @@ def setWallpaper(filePath):
     js_script
   ])
 
-def setTerminalColor(color="auto"):
+def setTerminalColor(color="auto", textColor="auto"):
   if color == "auto" or not color[0] == "#" or len(color) > 7:
     color,brightness = getColor()
   else:
     brightness = getBrightness(color)
 
-  if brightness < 46:
-    textColor = "#ddd"
-  else:
+  if textColor == "auto":
+    if brightness < 46:
+      textColor = "#ddd"
+    else:
+      textColor = "#111"
+  elif textColor == "dark":
     textColor = "#111"
+  elif textColor == "light":
+    textColor = "#ddd"
 
   colorExists = False
   textExists = False

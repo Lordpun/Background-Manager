@@ -72,7 +72,7 @@ Same with ChangeKvantum
 
 #### Custom presets
 
-You can set a custom color for a background if you don't like the picked color
+You can set a custom options for the background
 
 ```
 {
@@ -83,15 +83,17 @@ You can set a custom color for a background if you don't like the picked color
         "Background": "Path",
         "ChangeTerminal": Bool,
         "ChangeKvantum": Bool,
-        "Color": "Hex code"
+        "Color": "Hex code",
+        "TextColor": "Hex code"
       }
     ]
   }
 }
 ```
   
-If you have ChangeTerminal set to false, you don't need Color  
-If you don't want a specific background in a custom command to use a custom color, you can either not add it or set it to auto
+Everything but Background is optional  
+TextColor can be a hex code or light or dark if you just want a simple white or black  
+  
 
 #### Extra Commands
 
