@@ -11,6 +11,7 @@ This is designed for KDE and Kitty Terminal, so if you wish to use this script b
 * KDE
 * Kitty Terminal  
 * Kvantum (If you want this to change your Kvantum theme's colors)
+* Fastfetch (If you're using a custom fastfetch image)
 
 **WARNING WITH KVANTUM**   
 It is hard coded for the theme I use (Glassy)  
@@ -126,6 +127,22 @@ Simply add it into a command or background section
 ```
 
 Make sure if you use any characters such as quotation marks to add escape characters before them, such as `echo \"test\"`
+
+#### Custom images
+
+You can add a custom image to your terminal through fastfetch
+
+To set it, add this to a background
+```
+"FastFetch" {
+  "img" path/to/img
+  "width" int
+  "padding" int (optional)
+}
+```
+
+Then set your script to run as `./script.sh fastfetch` in your bash.rc file.
+(I'd still recommend running your normal fastfetch command in the bash.rc file as a default value)
 
 ### Calling the script  
 

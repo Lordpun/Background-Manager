@@ -5,6 +5,7 @@ import random
 import subprocess
 import background
 import kvantum
+import fastfetch
 
 command = ""
 
@@ -24,6 +25,10 @@ def getCommand():
     background.setTerminalColor()
     return
 
+  if command == "fastfetch":
+    fastfetch.updateImg()
+    return
+
   if not configPath.exists():
     sys.exit("No config found\nPlease make one at the path ~/.config/BgManager/config.json\nFormatting instructions are in the script's readme")
 
@@ -41,13 +46,19 @@ def getCommand():
     if selection.get("ChangeTerminal", True):
       background.setTerminalColor(selection.get("Color", "auto"), selection.get("TextColor", "auto"))
 
-
     if selection.get("ChangeKvantum", False):
       kvantum.setKvantumColor(selection.get("Color", "auto"))
 
-    if selection.get("Commands"):
+    if selection.get("Commands", False):
       for item in selection.get("Commands"):
         subprocess.run(item, shell=True)
+
+    if selection.get("Fastfetch", False):
+      fastfetchData = selection.get("Fastfetch")
+      fastfetch.saveImg(fastfetchData.get("img"), fastfetchData.get("width"), fastfetchData.get("padding", 0))
+    else:
+      fastfetch.wipeData()
+
     return
   files = [f for f in Path(info["Folder"]).iterdir() if f.is_file()]
   selection = random.choice(files)
@@ -62,6 +73,12 @@ def getCommand():
   if info.get("Commands"):
     for item in info.get("Commands"):
       subprocess.run(item, shell=True)
+
+  if info.get("Fastfetch", False):
+    fastfetchData = info.get("Fastfetch")
+    fastfetch.saveImg(fastfetchData.get("img"), fastfetchData.get("width"), fastfetchData.get("padding", 0))
+  else:
+    fastfetch.wipeData()
 
 getArgs()
 getCommand()
