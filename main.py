@@ -6,6 +6,9 @@ import subprocess
 import background
 import kvantum
 import fastfetch
+import info
+
+info.makeInfo()
 
 command = ""
 

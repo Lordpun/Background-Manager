@@ -5,6 +5,7 @@ import sys
 import os
 import extcolors
 import colorsys
+import info
 
 wallpaperPath = Path.home() / ".config" / "plasma-org.kde.plasma.desktop-appletsrc"
 kittyConfig = Path.home() / ".config" / "kitty" / "kitty.conf"
@@ -67,6 +68,8 @@ def setWallpaper(filePath):
     js_script
   ])
 
+  info.updateInfo("Background", filePath)
+
 def setTerminalColor(color="auto", textColor="auto"):
   if color == "auto" or not color[0] == "#" or len(color) > 7:
     color,brightness = getColor()
@@ -117,3 +120,6 @@ def setTerminalColor(color="auto", textColor="auto"):
     config.writelines(lines)
 
   subprocess.run(["kitty", "@", "set-colors", "--all", f"background={color}", f"foreground={textColor}"])
+
+  info.updateInfo("Color", color)
+  info.updateInfo("TextColor", textColor)
