@@ -1,10 +1,12 @@
 from pathlib import Path
 import xml.etree.ElementTree as ET
 import background
+import info
 import colorsys
 import subprocess
 import shutil
 import sys
+import configparser
 
 def getQdbus():
   for cmd in ['qdbus6', 'qdbus-qt5', 'qdbus']:
@@ -45,6 +47,8 @@ def setKvantumColor(color="auto"):
 
   tree.write(svg, encoding='utf-8', xml_declaration=True)
 
+  setKvantumText()
+
   subprocess.run(f"{getQdbus()} org.kde.KWin /KWin reconfigure", shell=True)
 
   cache_path = Path.home() / ".cache" / "kvantum"
@@ -53,3 +57,19 @@ def setKvantumColor(color="auto"):
       shutil.rmtree(cache_path)
     except OSError:
       pass
+
+def setKvantumText():
+  textColor = info.getInfo()["TextColor"]
+
+  kvconfig = Path.home() / ".config" / "Kvantum" / "Glassy" / "Glassy.kvconfig"
+
+  config = configparser.ConfigParser()
+  config.optionxform = str
+  config.read(kvconfig)
+
+  config.set('GeneralColors', 'text.color', textColor)
+  config.set('GeneralColors', 'window.text.color', textColor)
+  config.set('GeneralColors', 'button.text.color', textColor)
+
+  with open(kvconfig, 'w') as configfile:
+    config.write(configfile)
