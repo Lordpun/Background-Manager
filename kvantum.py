@@ -72,4 +72,4 @@ def setKvantumText():
   config.set('GeneralColors', 'button.text.color', textColor)
 
   with open(kvconfig, 'w') as configfile:
-    config.write(configfile)
+    config.write(configfile) 
