@@ -1,7 +1,7 @@
 from pathlib import Path
 import xml.etree.ElementTree as ET
 import background
-import info
+import infoTracking
 import colorsys
 import subprocess
 import shutil
@@ -59,7 +59,7 @@ def setKvantumColor(color="auto"):
       pass
 
 def setKvantumText():
-  textColor = info.getInfo()["TextColor"]
+  textColor = infoTracking.getInfo()["TextColor"]
 
   kvconfig = Path.home() / ".config" / "Kvantum" / "Glassy" / "Glassy.kvconfig"
 

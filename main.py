@@ -6,9 +6,9 @@ import subprocess
 import background
 import kvantum
 import fastfetch
-import info
+import infoTracking
 
-info.makeInfo()
+infoTracking.makeInfo()
 
 command = ""
 
@@ -62,7 +62,7 @@ def getCommand():
     else:
       fastfetch.wipeData()
 
-    info.updateInfo("LoadedTheme", selection)
+    infoTracking.updateInfo("LoadedTheme", selection)
 
     return
   files = [f for f in Path(info["Folder"]).iterdir() if f.is_file()]
