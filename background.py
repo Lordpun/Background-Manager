@@ -54,7 +54,7 @@ def setWallpaper(filePath):
   elif subprocess.run(["which", "qdbus"], capture_output=True).returncode == 0:
     command = "qdbus"
   else:
-    command = "/usr/lib/qt6/bin/qdbus" 
+    command = "/usr/lib/qt6/bin/qdbus"
 
   if not os.path.exists(command) and subprocess.run(["which", command], capture_output=True).returncode != 0:
     sys.exit("Error: Neither qdbus-qt6 nor qdbus was found. Please install qt6-tools.")
@@ -68,7 +68,7 @@ def setWallpaper(filePath):
     js_script
   ])
 
-  infoTracking.updateInfo("Background", filePath)
+  infoTracking.updateInfo("Background", str(filePath))
 
 def setTerminalColor(color="auto", textColor="auto"):
   if color == "auto" or not color[0] == "#" or len(color) > 7:
