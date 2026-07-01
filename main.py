@@ -4,7 +4,6 @@ import json
 import random
 import subprocess
 import background
-import kvantum
 import fastfetch
 import infoTracking
 import addons
@@ -50,11 +49,6 @@ def getCommand():
     if selection.get("ChangeTerminal", True):
       background.setTerminalColor(selection.get("Color", "auto"), selection.get("TextColor", "auto"))
 
-    if selection.get("ChangeKvantum", False):
-      kvantum.setKvantumColor(selection.get("Color", "auto"))
-
-    infoTracking.updateInfo("LoadedTheme", selection)
-
     checkNonCustom(selection)
 
     return
@@ -65,12 +59,11 @@ def getCommand():
   if info.get("ChangeTerminal", True):
     background.setTerminalColor()
 
-  if info.get("ChangeKvantum", False):
-    kvantum.setKvantumColor()
-
   checkNonCustom(info)
 
 def checkNonCustom(selection):
+  infoTracking.updateInfo("LoadedTheme", selection)
+
   if selection.get("Commands", False):
     for item in selection.get("Commands"):
       subprocess.run(item, shell=True)
