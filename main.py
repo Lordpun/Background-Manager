@@ -37,7 +37,7 @@ def getCommand():
 
   config = getConfig()
 
-  if not config[command]:
+  if not config.get(command):
     sys.exit(f"Command {command} not found")
 
   info = config[command]
@@ -52,15 +52,7 @@ def getCommand():
     if selection.get("ChangeKvantum", False):
       kvantum.setKvantumColor(selection.get("Color", "auto"))
 
-    if selection.get("Commands", False):
-      for item in selection.get("Commands"):
-        subprocess.run(item, shell=True)
-
-    if selection.get("Fastfetch", False):
-      fastfetchData = selection.get("Fastfetch")
-      fastfetch.saveImg(fastfetchData.get("img"), fastfetchData.get("width"), fastfetchData.get("padding", 0))
-    else:
-      fastfetch.wipeData()
+    checkNonCustom(selection)
 
     infoTracking.updateInfo("LoadedTheme", selection)
 
@@ -75,15 +67,19 @@ def getCommand():
   if info.get("ChangeKvantum", False):
     kvantum.setKvantumColor()
 
-  if info.get("Commands"):
-    for item in info.get("Commands"):
+  checkNonCustom(info)
+
+def checkNonCustom(selection):
+  if selection.get("Commands", False):
+    for item in selection.get("Commands"):
       subprocess.run(item, shell=True)
 
-  if info.get("Fastfetch", False):
-    fastfetchData = info.get("Fastfetch")
+  if selection.get("Fastfetch", False):
+    fastfetchData = selection.get("Fastfetch")
     fastfetch.saveImg(fastfetchData.get("img"), fastfetchData.get("width"), fastfetchData.get("padding", 0))
   else:
     fastfetch.wipeData()
+  pass
 
 getArgs()
 getCommand()
