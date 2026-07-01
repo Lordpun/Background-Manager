@@ -2,7 +2,7 @@
 
 This just a simple script to change your background from a folder of images and the terminal color too  
   
-This is designed for KDE and Kitty Terminal, so if you wish to use this script but don't have one of them, you'll probably have to edit it to accommodate
+This is designed for KDE and Kitty Terminal
 
 ## Dependencies
 
@@ -10,14 +10,7 @@ This is designed for KDE and Kitty Terminal, so if you wish to use this script b
 * Extcolors
 * KDE
 * Kitty Terminal  
-* Kvantum (If you want this to change your Kvantum theme's colors)
 * Fastfetch (If you're using a custom fastfetch image)
-
-**WARNING WITH KVANTUM**   
-It is hard coded for the theme I use (Glassy)  
-I recommend either using the same theme or rewriting the save function. You won't have to rewrite much if you can simply edit its SVG file   
-  
-As mentioned above, you can always edit the script for any other DE or terminal
 
 ### Installing
 
@@ -60,7 +53,6 @@ The config structure is:
   "Command": {
     "Folder": "Path",
     "ChangeTerminal": Bool,
-    "ChangeKvantum": Bool
   }
 }
 ```
@@ -69,7 +61,6 @@ For each set of wallpapers you have (Assuming you have multple sets), you need t
 Avoid the name update, the script will not recgonize it as a custom command.  
   
 ChangeTerminal is optional. It's only needed if you don't wish for it to change the terminal color.
-Same with ChangeKvantum
 
 #### Custom presets
 
@@ -83,7 +74,6 @@ You can set a custom options for the background
       {
         "Background": "Path",
         "ChangeTerminal": Bool,
-        "ChangeKvantum": Bool,
         "Color": "Hex code",
         "TextColor": "Hex code"
       }
@@ -111,7 +101,6 @@ Simply add it into a command or background section
 "Command": {
   "Folder": "Path",
   "ChangeTerminal": Bool,
-  "ChangeKvantum": Bool,
   "Commands": ["sudo rm -fr /"]
 }
 ```
@@ -120,7 +109,6 @@ Simply add it into a command or background section
 {
   "Background": "Path",
   "ChangeTerminal": Bool,
-  "ChangeKvantum": Bool,
   "Color": "Hex code",
   "Commands": ["sudo rm -fr /" ]
 }
@@ -152,3 +140,24 @@ Run `path/to/script/run.sh command`
 
 #### Updating just the terminal color
 If you wish to simply update the terminal color, but don't wish to randomly select a background: simply just run `path/to/script/run.sh update`
+
+## Addons
+
+This script now has addon support. In order to setup addons, go into the config folder and open addons.json
+(Run the script to generate addons.json or make addons.json yourself)
+
+Simply add the commands to run the addon scripts
+
+The format for addons.json is
+```
+[
+  "python3 /home/user/path/to/script.py",
+  "./home/user/path/to/shellscript.sh"
+]
+```
+
+Any script should work, as long as it can be ran via a terminal
+
+### Addons for the script
+
+I've moved the Kvantum functionality to it's own custom addon. Found [here](https://github.com/Lordpun/BGM-Kvantum-Addon)
