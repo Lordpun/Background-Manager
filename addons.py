@@ -7,7 +7,7 @@ addonsList = Path.home() / ".config" / "BgManager" / "addons.json"
 def getAddonsFile():
   if not addonsList.exists():
     with open(addonsList, "w") as file:
-    json.dump([], file)
+      json.dump([], file)
 
   with open(addonsList, "r") as file:
     return json.load(file)

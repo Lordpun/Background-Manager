@@ -7,6 +7,7 @@ import background
 import kvantum
 import fastfetch
 import infoTracking
+import addons
 
 infoTracking.makeInfo()
 
@@ -52,9 +53,9 @@ def getCommand():
     if selection.get("ChangeKvantum", False):
       kvantum.setKvantumColor(selection.get("Color", "auto"))
 
-    checkNonCustom(selection)
-
     infoTracking.updateInfo("LoadedTheme", selection)
+
+    checkNonCustom(selection)
 
     return
   files = [f for f in Path(info["Folder"]).iterdir() if f.is_file()]
@@ -79,7 +80,8 @@ def checkNonCustom(selection):
     fastfetch.saveImg(fastfetchData.get("img"), fastfetchData.get("width"), fastfetchData.get("padding", 0))
   else:
     fastfetch.wipeData()
-  pass
+  
+  addons.getAddonScripts()
 
 getArgs()
 getCommand()
